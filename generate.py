@@ -1,14 +1,19 @@
 from random import randint
-from multiprocessing import cpu_count
 
-N = 1000
+config = [
+    ("1Kx1Ka", 1000, 1000),
+    ("1Kx1Kb", 1000, 1000),
+    ("100x100K", 100, 100000),
+    ("100Kx100", 100000, 100),
+    ("5x1M", 5, 1000000),
+    ("1Mx5", 1000000, 5)
+]
 
-for n_cpu in range(1, cpu_count() + 1):
-    filename = str(n_cpu) + ".txt"
-    rows, cols = N, N
-    with open(filename, "w") as file:
+for filename, rows, cols in config:
+    with open("data/" + filename + ".txt", "w") as file:
         file.write("%d %d\n" % (rows, cols))
         print(rows * cols)
         for i in range(rows):
-            file.write(" ".join([str(randint(1, 10)) for j in range(cols)]))
+            for j in range(cols):
+                file.write(str(randint(1, 100)) + " ")
             file.write("\n")
